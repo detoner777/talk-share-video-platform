@@ -7,7 +7,7 @@ const {
   requireSignin
 } = require("../controllers/auth");
 
-//validators
+// validators
 const { runValidation } = require("../validators");
 const {
   userSignupValidator,
@@ -17,10 +17,10 @@ const {
 router.post("/signup", userSignupValidator, runValidation, signup);
 router.post("/signin", userSigninValidator, runValidation, signin);
 router.get("/signout", signout);
-//test
+// test
 router.get("/secret", requireSignin, (req, res) => {
   res.json({
-    message: "You have access to secret page"
+    message: "you have access to secret page"
   });
 });
 
