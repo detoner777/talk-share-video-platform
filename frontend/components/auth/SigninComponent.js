@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { signin } from "../../actions/auth";
+import { signin, authenticate } from "../../actions/auth";
 import Router from "next/router";
 
 const SigninComponent = () => {
   const [values, setValues] = useState({
-    email: "ryan@gmail.com",
-    password: "rrrrrr",
+    email: "react@gmail.com",
+    password: "123456",
     error: "",
     loading: false,
     message: "",
@@ -28,7 +28,9 @@ const SigninComponent = () => {
         //save user info to localstorage
         //authenticate user
         //redirect to the home page
-        Router.push(`/`);
+        authenticate(data, () => {
+          Router.push(`/`);
+        });
       }
     });
   };

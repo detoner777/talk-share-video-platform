@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { signin, authenticate } from "../../actions/auth";
 import { signup } from "../../actions/auth";
 
 const SignupComponent = () => {
