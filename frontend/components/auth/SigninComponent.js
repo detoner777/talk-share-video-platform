@@ -33,7 +33,11 @@ const SigninComponent = () => {
         //authenticate user
         //redirect to the home page
         authenticate(data, () => {
-          Router.push(`/`);
+          if (isAuth() && isAuth().role === 1) {
+            Router.push(`/admin`);
+          } else {
+            Router.push(`/user`);
+          }
         });
       }
     });
