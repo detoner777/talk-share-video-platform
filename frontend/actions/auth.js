@@ -1,7 +1,6 @@
 import fetch from "isomorphic-fetch";
 import cookie from "js-cookie";
 import { API } from "../config";
-import { get } from "https";
 
 export const signup = user => {
   return fetch(`${API}/signup`, {
