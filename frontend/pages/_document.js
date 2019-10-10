@@ -20,13 +20,23 @@ class MyDocument extends Document {
           />
           <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/react-quill/0.4.1/react-quill.min.js"
+            href="https://cdnjs.cloudflare.com/ajax/libs/react-quill/0.4.1/quill.base.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/react-quill/0.4.1/quill.snow.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/react-quill/0.4.1/react-quill.min.js.map"
           />
           <link rel="stylesheet" href="/static/css/styles.css" />
         </Head>
         <body>
           <Main />
           <NextScript />
+
+          <style src="https://cdnjs.cloudflare.com/ajax/libs/react-quill/0.4.1/react-quill.min.js"></style>
         </body>
       </Html>
     );
