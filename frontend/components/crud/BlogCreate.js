@@ -8,13 +8,14 @@ import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { createBlog } from "../../actions/blog";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "../../node_modules/react-quill/dist/quill.snow.css";
+// import "../../node_modules/react-quill/dist/quill.snow.css";
 
 const CreateBlog = ({ router }) => {
   const blogFromLS = () => {
     if (typeof window === "undefined") {
       return false;
     }
+
     if (localStorage.getItem("blog")) {
       return JSON.parse(localStorage.getItem("blog"));
     } else {
@@ -25,8 +26,8 @@ const CreateBlog = ({ router }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
-  const [checked, setChecked] = useState([]); //categories
-  const [checkedTag, setCheckedTag] = useState([]); //tags
+  const [checked, setChecked] = useState([]); // categories
+  const [checkedTag, setCheckedTag] = useState([]); // tags
 
   const [body, setBody] = useState(blogFromLS());
   const [values, setValues] = useState({
@@ -46,6 +47,7 @@ const CreateBlog = ({ router }) => {
     title,
     hidePublishButton
   } = values;
+  const token = getCookie("token");
 
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
@@ -75,7 +77,22 @@ const CreateBlog = ({ router }) => {
 
   const publishBlog = e => {
     e.preventDefault();
-    console.log("ready to publishBlog");
+    // console.log('ready to publishBlog');
+    createBlog(formData, token).then(data => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          title: "",
+          error: "",
+          success: `A new blog titled "${data.title}" is created`
+        });
+        setBody("");
+        setCategories([]);
+        setTags([]);
+      }
+    });
   };
 
   const handleChange = name => e => {
@@ -96,7 +113,6 @@ const CreateBlog = ({ router }) => {
 
   const handleToggle = c => () => {
     setValues({ ...values, error: "" });
-
     // return the first index or -1
     const clickedCategory = checked.indexOf(c);
     const all = [...checked];
@@ -111,20 +127,19 @@ const CreateBlog = ({ router }) => {
     formData.set("categories", all);
   };
 
-  const handleToggleTags = t => () => {
+  const handleTagsToggle = t => () => {
     setValues({ ...values, error: "" });
-
     // return the first index or -1
-    const clickedTags = checked.indexOf(t);
-    const all = [...checked];
+    const clickedTag = checked.indexOf(t);
+    const all = [...checkedTag];
 
-    if (clickedTags === -1) {
+    if (clickedTag === -1) {
       all.push(t);
     } else {
-      all.splice(clickedTags, 1);
+      all.splice(clickedTag, 1);
     }
     console.log(all);
-    setChecked(all);
+    setCheckedTag(all);
     formData.set("tags", all);
   };
 
@@ -150,7 +165,7 @@ const CreateBlog = ({ router }) => {
       tags.map((t, i) => (
         <li key={i} className="list-unstyled">
           <input
-            onChange={handleToggleTags(t._id)}
+            onChange={handleTagsToggle(t._id)}
             type="checkbox"
             className="mr-2"
           />
@@ -200,14 +215,35 @@ const CreateBlog = ({ router }) => {
           <hr />
           {JSON.stringify(title)}
           <hr />
-          {JSON.stringify(tags)}
+          {JSON.stringify(body)}
           <hr />
           {JSON.stringify(categories)}
+          <hr />
+          {JSON.stringify(tags)}
         </div>
+
         <div className="col-md-4">
+          <div>
+            <div className="form-group pb-2">
+              <h5>Featured image</h5>
+              <hr />
+
+              <small className="text-muted">Max size: 1mb</small>
+              <label className="btn btn-outline-info">
+                Upload featured image
+                <input
+                  onChange={handleChange("photo")}
+                  type="file"
+                  accept="image/*"
+                  hidden
+                />
+              </label>
+            </div>
+          </div>
           <div>
             <h5>Categories</h5>
             <hr />
+
             <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
               {showCategories()}
             </ul>
