@@ -12,14 +12,14 @@ const blogSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      uique: true,
+      unique: true,
       index: true
     },
     body: {
       type: {},
       required: true,
       min: 200,
-      max: 200000
+      max: 2000000
     },
     excerpt: {
       type: String,
@@ -31,7 +31,6 @@ const blogSchema = new mongoose.Schema(
     mdesc: {
       type: String
     },
-
     photo: {
       data: Buffer,
       contentType: String
