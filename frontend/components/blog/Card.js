@@ -19,6 +19,10 @@ const Card = ({ blog }) => {
     ));
   };
 
+  const returHTML = excerpt => {
+    return { __html: excerpt };
+  };
+
   return (
     <div className="lead pb-4">
       <header>
@@ -54,8 +58,9 @@ const Card = ({ blog }) => {
         <div className="col-md-8">
           <section>
             {/* <div className="pb-3">{renderHTML(blog.excerpt)}</div> */}
-            <div className="pb-3">{blog.excerpt}</div>
-
+            <div>
+              <div dangerouslySetInnerHTML={returHTML(blog.excerpt)} />
+            </div>
             <Link href={`/blogs/${blog.slug}`}>
               <a className="btn btn-primary pt-2">Read more</a>
             </Link>
