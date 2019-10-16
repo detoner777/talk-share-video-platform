@@ -124,7 +124,7 @@ exports.list = (req, res) => {
 };
 
 exports.listAllBlogsCategoriesTags = (req, res) => {
-  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 15;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
   let blogs;
@@ -229,11 +229,12 @@ exports.update = (req, res) => {
       oldBlog = _.merge(oldBlog, fields);
       oldBlog.slug = slugBeforeMerge;
 
-      const { body, mdesc, categories, tags } = fields;
+      const { body, desc, categories, tags } = fields;
 
       if (body) {
         oldBlog.excerpt = smartTrim(body, 320, " ", " ...");
-        oldBlog.mdesc = stripHtml(body.substring(0, 160));
+        //oldBlog.mdesc
+        oldBlog.desc = stripHtml(body.substring(0, 160));
       }
 
       if (categories) {
@@ -272,7 +273,7 @@ exports.photo = (req, res) => {
   Blog.findOne({ slug })
     .select("photo")
     .exec((err, blog) => {
-      if (err || blog) {
+      if (err || !blog) {
         return res.status(400).json({
           error: errorHandler(err)
         });
