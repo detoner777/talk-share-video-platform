@@ -16,7 +16,7 @@ export const createBlog = (blog, token) => {
     .catch(err => console.log(err));
 };
 
-export const listBlogsWithCategoriesAndTask = () => {
+export const listBlogsWithCategoriesAndTags = () => {
   return fetch(`${API}/blogs-categories-tags`, {
     method: "POST",
     headers: {
