@@ -1,12 +1,45 @@
 import Head from "next/head";
 import Link from "next/link";
+import { withRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { useState } from "react";
 import { listBlogsWithCategoriesAndTags } from "../../actions/blog";
-
 import Card from "../../components/blog/Card";
+import { API, DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
 
-const Blogs = ({ blogs, categories, tags, size }) => {
+const Blogs = ({ blogs, categories, tags, size, router }) => {
+  const head = () => (
+    <Head>
+      <title>Video content blogs | {APP_NAME}</title>
+      <meta
+        name="description"
+        content="Video content makers vloging platform"
+      />
+      <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
+      <meta
+        property="og:title"
+        content={`Latest web development tutorials | ${APP_NAME} `}
+      />
+      <meta
+        name="og:description"
+        content="Video content makers vloging platform"
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:image"
+        content={`${DOMAIN}/static/images/creators.jpg`}
+      />
+      <meta
+        property="og:image:secure_url"
+        content={`${DOMAIN}/static/images/creators.jpg`}
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      <meta property="fb:app_id" content={`${FB_APP_ID}`} />
+    </Head>
+  );
+
   const showAllBlogs = () => {
     return blogs.map((blog, i) => {
       return (
@@ -36,6 +69,7 @@ const Blogs = ({ blogs, categories, tags, size }) => {
 
   return (
     <React.Fragment>
+      {head()}
       <Layout>
         <main>
           <div className="container-fluid">
@@ -80,4 +114,4 @@ Blogs.getInitialProps = () => {
   });
 };
 
-export default Blogs;
+export default withRouter(Blogs);
