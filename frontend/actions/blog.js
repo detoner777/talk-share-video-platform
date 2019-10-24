@@ -70,7 +70,7 @@ export const list = () => {
     .catch(err => console.log(err));
 };
 
-export const removeBlog = (slog, token) => {
+export const removeBlog = (slug, token) => {
   return fetch(`${API}/blog/${slug}`, {
     method: "DELETE",
     headers: {
