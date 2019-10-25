@@ -175,7 +175,6 @@ const CreateBlog = ({ router }) => {
       ))
     );
   };
-
   const showError = () => (
     <div
       className="alert alert-danger"
