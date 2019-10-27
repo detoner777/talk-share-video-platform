@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 import { API } from "../config";
 
-export const create = (category, token) => {
+export const create = (tag, token) => {
   return fetch(`${API}/tag`, {
     method: "POST",
     headers: {
@@ -9,7 +9,7 @@ export const create = (category, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(category)
+    body: JSON.stringify(tag)
   })
     .then(response => {
       return response.json();
