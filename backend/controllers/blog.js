@@ -304,13 +304,14 @@ exports.listRelated = (req, res) => {
 
 //
 exports.listSearch = (req, res) => {
+  console.log(req.query);
   const { search } = req.query;
   if (search) {
     Blog.find(
       {
         $or: [
           { title: { $regex: search, $options: "i" } },
-          { bidy: { $regex: search, $options: "i" } }
+          { body: { $regex: search, $options: "i" } }
         ]
       },
       (err, blogs) => {
