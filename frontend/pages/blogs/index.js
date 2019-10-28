@@ -18,30 +18,31 @@ const Blogs = ({
 }) => {
   const head = () => (
     <Head>
-      <title>Video content blogs | {APP_NAME}</title>
+      <title>Programming blogs | {APP_NAME}</title>
       <meta
         name="description"
-        content="Video content makers vloging platform"
+        content="Programming blogs and tutorials on react node next vue php laravel and web developoment"
       />
       <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
       <meta
         property="og:title"
-        content={`Latest web development tutorials | ${APP_NAME} `}
+        content={`Latest web developoment tutorials | ${APP_NAME}`}
       />
       <meta
-        name="og:description"
-        content="Video content makers vloging platform"
+        property="og:description"
+        content="Programming blogs and tutorials on react node next vue php laravel and web developoment"
       />
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content="webiste" />
       <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
+
       <meta
         property="og:image"
-        content={`${DOMAIN}/static/images/creators.jpg`}
+        content={`${DOMAIN}/static/images/seoblog.jpg`}
       />
       <meta
         property="og:image:secure_url"
-        content={`${DOMAIN}/static/images/creators.jpg`}
+        content={`${DOMAIN}/static/images/seoblog.jpg`}
       />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
@@ -79,6 +80,7 @@ const Blogs = ({
 
   const showAllBlogs = () => {
     return blogs.map((blog, i) => {
+      // ()
       return (
         <article key={i}>
           <Card blog={blog} />
@@ -91,7 +93,7 @@ const Blogs = ({
   const showAllCategories = () => {
     return categories.map((c, i) => (
       <Link href={`/categories/${c.slug}`} key={i}>
-        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{c.name}</a>
+        <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
       </Link>
     ));
   };
@@ -99,7 +101,7 @@ const Blogs = ({
   const showAllTags = () => {
     return tags.map((t, i) => (
       <Link href={`/tags/${t.slug}`} key={i}>
-        <a className="btn btn-primary mr-1 ml-1 mt-3">{t.name}</a>
+        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
       </Link>
     ));
   };
@@ -121,11 +123,11 @@ const Blogs = ({
             <header>
               <div className="col-md-12 pt-3">
                 <h1 className="display-4 font-weight-bold text-center">
-                  Programing blogs and tutorials
+                  Programming blogs and tutorials
                 </h1>
               </div>
               <section>
-                <div className="pb-5 text-center ">
+                <div className="pb-5 text-center">
                   {showAllCategories()}
                   <br />
                   {showAllTags()}
@@ -135,7 +137,7 @@ const Blogs = ({
           </div>
           <div className="container-fluid">{showAllBlogs()}</div>
           <div className="container-fluid">{showLoadedBlogs()}</div>
-          <div className="tex-center pt-5 pb-5">{loadMoreButton()}</div>
+          <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </main>
       </Layout>
     </React.Fragment>
