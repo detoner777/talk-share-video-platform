@@ -103,7 +103,7 @@ exports.create = (req, res) => {
   });
 };
 
-//list,listAllBlogsCategoriesTags, read, remove, update
+// list, listAllBlogsCategoriesTags, read, remove, update
 
 exports.list = (req, res) => {
   Blog.find({})
@@ -124,17 +124,18 @@ exports.list = (req, res) => {
 };
 
 exports.listAllBlogsCategoriesTags = (req, res) => {
-  let limit = req.body.limit ? parseInt(req.body.limit) : 15;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
   let blogs;
   let categories;
   let tags;
+
   Blog.find({})
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
-    .populate("postedBy", "_id name username")
-    .sort({ createAt: -1 })
+    .populate("postedBy", "_id name username profile")
+    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .select(
@@ -154,15 +155,16 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
             error: errorHandler(err)
           });
         }
-        categories = c; // all categorie;
+        categories = c; // categories
+        // get all tags
         Tag.find({}).exec((err, t) => {
           if (err) {
             return res.json({
               error: errorHandler(err)
             });
           }
-          tags = t; //all tags
-          //return all blogs, categories, tags
+          tags = t;
+          // return all blogs categories tags
           res.json({ blogs, categories, tags, size: blogs.length });
         });
       });
@@ -172,6 +174,7 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
 exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
   Blog.findOne({ slug })
+    // .select("-photo")
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
@@ -197,14 +200,11 @@ exports.remove = (req, res) => {
       });
     }
     res.json({
-      message: "Blog deletet successful"
+      message: "Blog deleted successfully"
     });
   });
 };
 
-exports.update = (req, res) => {};
-
-//blog update
 exports.update = (req, res) => {
   const slug = req.params.slug.toLowerCase();
 
@@ -233,7 +233,6 @@ exports.update = (req, res) => {
 
       if (body) {
         oldBlog.excerpt = smartTrim(body, 320, " ", " ...");
-        //oldBlog.mdesc
         oldBlog.desc = stripHtml(body.substring(0, 160));
       }
 

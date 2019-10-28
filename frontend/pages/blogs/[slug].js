@@ -115,7 +115,7 @@ const SingleBlog = ({ blog, query }) => {
               <section>
                 <div
                   className="col-md-12 lead"
-                  dangerouslySetInnerHTML={returHTML(blog.excerpt)}
+                  dangerouslySetInnerHTML={returHTML(blog.body)}
                 />
               </section>
 
