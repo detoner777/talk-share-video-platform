@@ -29,7 +29,7 @@ exports.publicProfile = (req, res) => {
       .populate("postedBy", "_id name")
       .limit(10)
       .select(
-        "_id title slug excerpt categories tags postedBy createdAt updatedAt "
+        "_id title slug excerpt categories tags postedBy createdAt updatedAt"
       )
       .exec((err, data) => {
         if (err) {
@@ -49,7 +49,7 @@ exports.publicProfile = (req, res) => {
 
 exports.update = (req, res) => {
   let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
+  form.keepExtension = true;
   form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(400).json({
@@ -66,18 +66,19 @@ exports.update = (req, res) => {
     }
 
     if (files.photo) {
-      if (files.photo.size > 1000000) {
+      if (files.photo.size > 10000000) {
         return res.status(400).json({
-          error: "Image should be less then 1mb"
+          error: "Image should be less than 1mb"
         });
       }
       user.photo.data = fs.readFileSync(files.photo.path);
       user.photo.contentType = files.photo.type;
     }
+
     user.save((err, result) => {
       if (err) {
         return res.status(400).json({
-          error: errorHandler(err)
+          error: "All filds required"
         });
       }
       user.hashed_password = undefined;
