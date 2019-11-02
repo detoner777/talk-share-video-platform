@@ -32,7 +32,7 @@ router.get("/blogs/search", listSearch);
 
 // auth user blog crud
 router.post("/user/blog", requireSignin, authMiddleware, create);
-routes.get("/:username/blogs", listByUser);
+router.get("/:username/blogs", listByUser);
 router.delete(
   "/user/blog/:slug",
   requireSignin,

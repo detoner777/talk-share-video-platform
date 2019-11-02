@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Blog = require("../models/blog");
 const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
@@ -71,7 +72,7 @@ exports.signout = (req, res) => {
 };
 
 exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET
+  secret: process.env.JWT_SECRET // req.user
 });
 
 exports.authMiddleware = (req, res, next) => {
@@ -115,11 +116,11 @@ exports.canUpdateDeleteBlog = (req, res, next) => {
         error: errorHandler(err)
       });
     }
-    let authorizeUser =
+    let authorizedUser =
       data.postedBy._id.toString() === req.profile._id.toString();
-    if (!authorizeUser) {
+    if (!authorizedUser) {
       return res.status(400).json({
-        error: "You are not authorize"
+        error: "You are not authorized"
       });
     }
     next();
