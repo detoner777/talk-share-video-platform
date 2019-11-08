@@ -4,8 +4,9 @@ const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const { errorHandler } = require("../helpers/dbErrorHandler");
-//sendgrid
-const sgMail = require("@sendgrid/mail"); // Sendgrid_API_KEY
+const _ = require("lodash");
+// sendgrid
+const sgMail = require("@sendgrid/mail"); // SENDGRID_API_KEY
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.preSignup = (req, res) => {
@@ -27,12 +28,12 @@ exports.preSignup = (req, res) => {
       to: email,
       subject: `Account activation link`,
       html: `
-          <p>Please use the following link to activate your acccount:</p>
-          <p>${process.env.CLIENT_URL}/auth/account/activate/${token}</p>
-          <hr />
-          <p>This email may contain sensetive information</p>
-          <p>https://seoblog.com</p>
-      `
+            <p>Please use the following link to activate your acccount:</p>
+            <p>${process.env.CLIENT_URL}/auth/account/activate/${token}</p>
+            <hr />
+            <p>This email may contain sensetive information</p>
+            <p>https://seoblog.com</p>
+        `
     };
 
     sgMail.send(emailData).then(sent => {
@@ -43,34 +44,71 @@ exports.preSignup = (req, res) => {
   });
 };
 
+// exports.signup = (req, res) => {
+//     // console.log(req.body);
+//     User.findOne({ email: req.body.email }).exec((err, user) => {
+//         if (user) {
+//             return res.status(400).json({
+//                 error: 'Email is taken'
+//             });
+//         }
+
+//         const { name, email, password } = req.body;
+//         let username = shortId.generate();
+//         let profile = `${process.env.CLIENT_URL}/profile/${username}`;
+
+//         let newUser = new User({ name, email, password, profile, username });
+//         newUser.save((err, success) => {
+//             if (err) {
+//                 return res.status(400).json({
+//                     error: err
+//                 });
+//             }
+//             // res.json({
+//             //     user: success
+//             // });
+//             res.json({
+//                 message: 'Signup success! Please signin.'
+//             });
+//         });
+//     });
+// };
+
 exports.signup = (req, res) => {
-  // console.log(req.body);
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user) {
-      return res.status(400).json({
-        error: "Email is taken"
-      });
-    }
-
-    const { name, email, password } = req.body;
-    let username = shortId.generate();
-    let profile = `${process.env.CLIENT_URL}/profile/${username}`;
-
-    let newUser = new User({ name, email, password, profile, username });
-    newUser.save((err, success) => {
+  const token = req.body.token;
+  if (token) {
+    jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(
+      err,
+      decoded
+    ) {
       if (err) {
-        return res.status(400).json({
-          error: err
+        return res.status(401).json({
+          error: "Expired link. Signup again"
         });
       }
-      // res.json({
-      //     user: success
-      // });
-      res.json({
-        message: "Signup success! Please signin."
+
+      const { name, email, password } = jwt.decode(token);
+
+      let username = shortId.generate();
+      let profile = `${process.env.CLIENT_URL}/profile/${username}`;
+
+      const user = new User({ name, email, password, profile, username });
+      user.save((err, user) => {
+        if (err) {
+          return res.status(401).json({
+            error: errorHandler(err)
+          });
+        }
+        return res.json({
+          message: "Singup success! Please signin"
+        });
       });
     });
-  });
+  } else {
+    return res.json({
+      message: "Something went wrong. Try again"
+    });
+  }
 };
 
 exports.signin = (req, res) => {
@@ -165,8 +203,6 @@ exports.canUpdateDeleteBlog = (req, res, next) => {
   });
 };
 
-// forgotPassword, resetPassword
-
 exports.forgotPassword = (req, res) => {
   const { email } = req.body;
 
@@ -187,12 +223,12 @@ exports.forgotPassword = (req, res) => {
       to: email,
       subject: `Password reset link`,
       html: `
-          <p>Please use the following link to reset your password:</p>
-          <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
-          <hr />
-          <p>This email may contain sensetive information</p>
-          <p>https://seoblog.com</p>
-      `
+            <p>Please use the following link to reset your password:</p>
+            <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
+            <hr />
+            <p>This email may contain sensetive information</p>
+            <p>https://seoblog.com</p>
+        `
     };
     // populating the db > user > resetPasswordLink
     return user.updateOne({ resetPasswordLink: token }, (err, success) => {
