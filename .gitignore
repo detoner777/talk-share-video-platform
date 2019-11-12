@@ -1,4 +1,6 @@
 node_modules
 .next
 next.config.js
+frontend/next.config.js
 .env
+backend/.env
