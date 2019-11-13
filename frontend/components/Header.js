@@ -99,14 +99,13 @@ const Header = () => {
               </NavItem>
             )}
             <NavItem>
-              <Link href="/user/crud/blog">
-                <NavLink
-                  className="btn btn-primary text-light"
-                  style={{ cursor: "pointer" }}
-                >
-                  Write a blog
-                </NavLink>
-              </Link>
+              <a
+                href="/user/crud/blog"
+                className="btn btn-primary text-light"
+                style={{ cursor: "pointer" }}
+              >
+                Write a blog
+              </a>
             </NavItem>
           </Nav>
         </Collapse>
