@@ -107,7 +107,7 @@ const SingleBlog = ({ blog, query }) => {
               </section>
               <section>
                 <div className="container">
-                  <h1 className="display-2 pb-3 pt-3 text-center font-weight-bold">
+                  <h1 className="display-3 pb-3 pt-3 text-center font-weight-bold">
                     {blog.title}
                   </h1>
                   <p className="lead mt-3 mark">
@@ -129,10 +129,12 @@ const SingleBlog = ({ blog, query }) => {
 
             <div className="container">
               <section>
-                <div
-                  className="col-md-12 lead"
-                  dangerouslySetInnerHTML={returHTML(blog.body)}
-                />
+                <div className="content">
+                  <div
+                    className="col-md-12 lead"
+                    dangerouslySetInnerHTML={returHTML(blog.body)}
+                  />
+                </div>
               </section>
 
               <div className="container">

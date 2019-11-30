@@ -7,10 +7,17 @@
 }
 
 .featured-image {
-  width: 100%;
+ 
+width: 100%;
   max-height: 500px;
   object-fit: cover;
 }
+
+.content img {
+  width: 100%; 
+  height: auto;  
+}
+  
 
 /* Landing page style */
 
