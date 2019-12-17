@@ -18,20 +18,14 @@ const Blogs = ({
 }) => {
   const head = () => (
     <Head>
-      <title>Programming blogs | {APP_NAME}</title>
-      <meta
-        name="description"
-        content="Programming blogs and tutorials on react node next vue php laravel and web developoment"
-      />
+      <title>C | {APP_NAME}</title>
+      <meta name="description" content="Content cretors platform" />
       <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
       <meta
         property="og:title"
-        content={`Latest web developoment tutorials | ${APP_NAME}`}
+        content={`Content cretors blogs| ${APP_NAME}`}
       />
-      <meta
-        property="og:description"
-        content="Programming blogs and tutorials on react node next vue php laravel and web developoment"
-      />
+      <meta property="og:description" content="Content cretors platform" />
       <meta property="og:type" content="webiste" />
       <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
@@ -122,8 +116,8 @@ const Blogs = ({
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
-                <h1 className="display-4 font-weight-bold text-center">
-                  Programming blogs and tutorials
+                <h1 className="display-5 font-weight-bold text-center">
+                  Choose categories that you are interested in
                 </h1>
               </div>
               <section>
